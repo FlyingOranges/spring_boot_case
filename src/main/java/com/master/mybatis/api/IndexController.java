@@ -107,14 +107,4 @@ public class IndexController {
 
         return HttpUtils.apiSuccess(null, girlsImagesService.delRedisGirls(2));
     }
-
-    @GetMapping(value = "/redis/utils")
-    public ApiResponse redisUtils(@RequestParam Map<String, Object> params) {
-        Query query = new Query(params);
-
-        logger.info(query.toString());
-
-        return HttpUtils.apiSuccess(null, girlsImagesService.getRedisUtilsList(query));
-
-    }
 }

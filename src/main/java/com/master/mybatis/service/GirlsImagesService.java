@@ -78,7 +78,4 @@ public interface GirlsImagesService {
      * @return
      */
     Integer delRedisGirls(Integer id);
-
-    //TODO 工具封装redis查找
-    List<GirlsImages> getRedisUtilsList(Map<String, Object> params);
 }
