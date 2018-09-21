@@ -26,9 +26,9 @@ public class RedisUtils<T> {
     /**
      * 封装缓存记录方案(单记录)
      *
-     * @param key
-     * @param time
-     * @param redisObjectInterface
+     * @param key                  标示
+     * @param time                 秒
+     * @param redisObjectInterface 接口类
      * @return
      */
     public Object remember(String key, long time, RedisObjectInterface redisObjectInterface) {
@@ -50,9 +50,9 @@ public class RedisUtils<T> {
     /**
      * 封装缓存记录方案(多记录)
      *
-     * @param key
-     * @param time
-     * @param redisListInterface
+     * @param key                标示
+     * @param time               秒
+     * @param redisListInterface 接口类
      * @return
      */
     public List<T> remember(String key, long time, RedisListInterface redisListInterface) {
