@@ -1,6 +1,6 @@
 package com.master.mybatis.CallInterface;
 
-public interface RedisObjectInterface {
+public interface RedisObjectInterface<T> {
 
-    Object getData();
+    T getData();
 }

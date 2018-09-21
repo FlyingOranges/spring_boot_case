@@ -2,8 +2,8 @@ package com.master.mybatis.CallInterface;
 
 import java.util.List;
 
-public interface RedisListInterface {
+public interface RedisListInterface<T> {
 
-    List<Object> getData();
+    List<T> getData();
 
 }

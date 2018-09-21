@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * 创建一个 redis 工具类
  */
 @Component
-public class RedisUtils {
+public class RedisUtils<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
@@ -36,13 +36,13 @@ public class RedisUtils {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
         if (redisTemplate.hasKey(key)) {
-            logger.info("在缓存中找到了数据");
+            System.out.println("在缓存中找到了数据");
             return operations.get(key);
         }
 
         Object data = redisObjectInterface.getData();
         operations.set(key, data, time, TimeUnit.SECONDS);
-        logger.info("在缓存中没找到数据");
+        System.out.println("在缓存中没找到数据");
 
         return data;
     }
@@ -55,7 +55,7 @@ public class RedisUtils {
      * @param redisListInterface
      * @return
      */
-    public List<Object> remember(String key, long time, RedisListInterface redisListInterface) {
+    public List<T> remember(String key, long time, RedisListInterface redisListInterface) {
 
         ValueOperations<String, List> operations = redisTemplate.opsForValue();
 
@@ -64,11 +64,10 @@ public class RedisUtils {
             return operations.get(key);
         }
 
-        List<Object> data = redisListInterface.getData();
+        List<T> data = redisListInterface.getData();
         operations.set(key, data, time, TimeUnit.SECONDS);
 
         return data;
     }
-
 
 }

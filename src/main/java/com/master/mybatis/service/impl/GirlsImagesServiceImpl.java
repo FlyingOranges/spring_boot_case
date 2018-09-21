@@ -40,6 +40,7 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
 
     @Override
     public GirlsImages findGirls(Integer id) {
+        System.out.println("到这里来了");
         return girlsImagesMapper.findById(id);
     }
 
@@ -139,16 +140,7 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
 
     @Override
     public GirlsImages GetRedisGirlsUtils(Integer id) {
-
-        GirlsImages data =
-                (GirlsImages) redisUtils.remember("GIRLS_" + id, 20, new RedisObjectInterface() {
-                    @Override
-                    public Object getData() {
-                        return girlsImagesMapper.findById(id);
-                    }
-                });
-
-        return data;
+        return (GirlsImages) redisUtils.remember("key_" + id, 10, () -> girlsImagesMapper.findById(id));
     }
 
     @Override
@@ -156,16 +148,6 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
         String key = "GIRLS_LIST_OFFSET_" + params.get("offset")
                 + "_PAGE_" + params.get("page") + "_LIMIT_" + params.get("limit");
 
-        List<Object> data =
-                redisUtils.remember(key, 20, new RedisListInterface() {
-                    @Override
-                    public List<Object> getData() {
-                        List<GirlsImages> data = girlsImagesMapper.getGirls(params);
-                        return (List<Object>) (List) data;
-                    }
-                });
-
-        List<GirlsImages> dbs = (List<GirlsImages>) (List) data;
-        return dbs;
+        return redisUtils.remember(key, 20, () -> girlsImagesMapper.getGirls(params));
     }
 }
