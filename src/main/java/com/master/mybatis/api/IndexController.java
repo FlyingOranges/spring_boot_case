@@ -104,7 +104,23 @@ public class IndexController {
 
     @GetMapping(value = "/redis/del")
     public ApiResponse redisDel() {
-
         return HttpUtils.apiSuccess(null, girlsImagesService.delRedisGirls(2));
+    }
+
+    @GetMapping(value = "/redis/utils")
+    public ApiResponse redisUtils() {
+        GirlsImages data = girlsImagesService.GetRedisGirlsUtils(2);
+
+        return HttpUtils.apiSuccess(null, data);
+    }
+
+    @GetMapping(value = "/redis/list/utils")
+    public ApiResponse redisList(@RequestParam Map<String, Object> params) {
+
+        Query query = new Query(params);
+
+        List<GirlsImages> data = girlsImagesService.GetRedisGirlsListUtils(query);
+
+        return HttpUtils.apiSuccess(null, data);
     }
 }

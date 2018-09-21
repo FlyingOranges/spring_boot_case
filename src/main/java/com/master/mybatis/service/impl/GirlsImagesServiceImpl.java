@@ -1,9 +1,12 @@
 package com.master.mybatis.service.impl;
 
+import com.master.mybatis.CallInterface.RedisListInterface;
+import com.master.mybatis.CallInterface.RedisObjectInterface;
 import com.master.mybatis.entity.GirlsImages;
 import com.master.mybatis.entity.GirlsImagesToContent;
 import com.master.mybatis.mapper.GirlsImagesMapper;
 import com.master.mybatis.service.GirlsImagesService;
+import com.master.mybatis.utils.RedisUtils;
 import com.master.mybatis.utils.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,9 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public GirlsImages findGirls(Integer id) {
@@ -87,7 +93,6 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
         if (hasKey) {
             GirlsImages girlsImages = operations.get(key);
 
-            logger.info("GirlsImagesServiceImpl.getRedisGirls() : 从缓存中获取了数据 >> " + girlsImages.toString());
             return girlsImages;
         }
 
@@ -95,7 +100,6 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
 
         // 插入缓存
         operations.set(key, girlsImages, 600, TimeUnit.SECONDS);
-        logger.info("GirlsImagesServiceImpl.getRedisGirls() : 数据插入缓存 >> " + girlsImages.toString());
 
         return girlsImages;
     }
@@ -131,5 +135,37 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
             logger.info(key + " 缓存被删除了");
         }
         return 1;
+    }
+
+    @Override
+    public GirlsImages GetRedisGirlsUtils(Integer id) {
+
+        GirlsImages data =
+                (GirlsImages) redisUtils.remember("GIRLS_" + id, 20, new RedisObjectInterface() {
+                    @Override
+                    public Object getData() {
+                        return girlsImagesMapper.findById(id);
+                    }
+                });
+
+        return data;
+    }
+
+    @Override
+    public List<GirlsImages> GetRedisGirlsListUtils(Map<String, Object> params) {
+        String key = "GIRLS_LIST_OFFSET_" + params.get("offset")
+                + "_PAGE_" + params.get("page") + "_LIMIT_" + params.get("limit");
+
+        List<Object> data =
+                redisUtils.remember(key, 20, new RedisListInterface() {
+                    @Override
+                    public List<Object> getData() {
+                        List<GirlsImages> data = girlsImagesMapper.getGirls(params);
+                        return (List<Object>) (List) data;
+                    }
+                });
+
+        List<GirlsImages> dbs = (List<GirlsImages>) (List) data;
+        return dbs;
     }
 }

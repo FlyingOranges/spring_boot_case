@@ -78,4 +78,20 @@ public interface GirlsImagesService {
      * @return
      */
     Integer delRedisGirls(Integer id);
+
+    /**
+     * 工具类,直接链接redis和数据库
+     *
+     * @param id
+     * @return
+     */
+    GirlsImages GetRedisGirlsUtils(Integer id);
+
+    /**
+     * 工具类,直接链接redis和数据库(多条数据)
+     *
+     * @param params
+     * @return
+     */
+    List<GirlsImages> GetRedisGirlsListUtils(Map<String, Object> params);
 }
