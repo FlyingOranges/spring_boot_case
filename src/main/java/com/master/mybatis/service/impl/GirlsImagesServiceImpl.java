@@ -140,6 +140,18 @@ public class GirlsImagesServiceImpl implements GirlsImagesService {
 
     @Override
     public GirlsImages GetRedisGirlsUtils(Integer id) {
+
+        /*
+        用匿名函数操作
+        GirlsImages data = (GirlsImages) redisUtils.remember("key_" + id, 10, (new RedisObjectInterface() {
+            @Override
+            public Object getData() {
+                return girlsImagesMapper.findById(id);
+            }
+        }));
+        */
+
+        // 用lambda表达式
         return (GirlsImages) redisUtils.remember("key_" + id, 10, () -> girlsImagesMapper.findById(id));
     }
 
