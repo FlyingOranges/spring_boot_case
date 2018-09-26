@@ -1,7 +1,6 @@
 package com.master.mybatis.service.impl;
 
-import com.master.mybatis.CallInterface.RedisListInterface;
-import com.master.mybatis.CallInterface.RedisObjectInterface;
+//import com.master.mybatis.CallInterface.RedisObjectInterface;
 import com.master.mybatis.entity.GirlsImages;
 import com.master.mybatis.entity.GirlsImagesToContent;
 import com.master.mybatis.mapper.GirlsImagesMapper;
