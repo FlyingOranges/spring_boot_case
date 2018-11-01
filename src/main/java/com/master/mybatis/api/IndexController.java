@@ -6,6 +6,7 @@ import com.master.mybatis.service.GirlsImagesService;
 import com.master.mybatis.utils.HttpUtils;
 import com.master.mybatis.utils.Query;
 import com.master.mybatis.utils.StringRandomUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.master.mybatis.domain.packages.ApiResponse;
 
+import java.io.UnsupportedEncodingException;
+import org.apache.*;
 import java.util.List;
 import java.util.Map;
 
